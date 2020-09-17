@@ -10,6 +10,6 @@ import lombok.Setter;
 class Bag {
 
     private String id;
-    private String type;
+    private BagSize size;
 
 }

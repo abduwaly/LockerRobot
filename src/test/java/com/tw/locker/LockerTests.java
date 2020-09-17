@@ -11,8 +11,8 @@ class LockerTests {
 
     @Test
     void should_save_bag_successfully_and_return_ticket_given_small_bag_and_S_Locker() {
-        Bag bag = new Bag(TEST_BAG_1, "SMALL");
-        Locker locker = new Locker(TEST_LOCKER_1, "S");
+        Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S);
 
         Ticker actual = locker.saveBag(bag);
 

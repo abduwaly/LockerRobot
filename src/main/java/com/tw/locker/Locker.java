@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Locker {
 
     private String id;
-    private String type;
+    private LockerType type;
 
     public Ticker saveBag(Bag bag) {
         return new Ticker(UUID.randomUUID(), bag.getId(), this.id);
