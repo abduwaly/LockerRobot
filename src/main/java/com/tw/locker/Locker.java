@@ -15,10 +15,10 @@ public class Locker {
     private LockerType type;
     private int capacity;
 
-    public Ticker saveBag(Bag bag) {
+    public Ticket saveBag(Bag bag) {
         if(this.capacity <= 0){
             throw new NoStorageException();
         }
-        return new Ticker(UUID.randomUUID(), bag.getId(), this.id);
+        return new Ticket(UUID.randomUUID(), bag.getId(), this.id);
     }
 }

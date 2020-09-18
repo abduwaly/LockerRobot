@@ -9,7 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Ticker {
+public class Ticket {
 
     private UUID id;
     private String bagId;
