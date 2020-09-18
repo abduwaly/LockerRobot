@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Getter
@@ -13,6 +14,12 @@ public class PrimaryLockerRobot {
     private List<Locker> lockers;
 
     public Ticket saveBag(Bag bag) {
-        return lockers.stream().filter(l -> l.getCapacity() > 0).findFirst().get().saveBag(bag);
+        Optional<Locker> target = lockers.stream().filter(l -> l.getCapacity() > 0).findFirst();
+
+        if(target.isPresent()) {
+            return target.get().saveBag(bag);
+        } else {
+            throw new NoStorageException();
+        }
     }
 }

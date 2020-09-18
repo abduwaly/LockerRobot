@@ -58,6 +58,14 @@ class LockerTests {
         assertEquals(actual.getLockerId(), TEST_LOCKER_2);
     }
 
+    @Test
+    void should_return_no_storage_exception_given_medium_bag_and_primary_robot_with_2_M_lockers_both_without_capacity(){
+        Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
+        PrimaryLockerRobot robot = initRobot(LockerType.M, 0, 0);
+
+        assertThrows(NoStorageException.class, () -> robot.saveBag(bag));
+    }
+
     private PrimaryLockerRobot initRobot(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
