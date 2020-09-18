@@ -15,12 +15,12 @@ public class SuperLockerRobot {
     private List<Locker> lockers;
 
     public Ticket saveBag(Bag bag) {
-        Optional<Locker> target = lockers.stream().max(Comparator.comparingDouble(Locker::vacancyRate));
 
-        if(target.isPresent()) {
-            return target.get().saveBag(bag);
-        } else {
+        if (this.lockers.stream().noneMatch(l -> l.vacancyRate() > 0)) {
             throw new NoStorageException();
         }
+
+        Optional<Locker> target = this.lockers.stream().max(Comparator.comparingDouble(Locker::vacancyRate));
+        return target.get().saveBag(bag);
     }
 }
