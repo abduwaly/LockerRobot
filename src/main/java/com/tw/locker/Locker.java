@@ -33,4 +33,8 @@ public class Locker {
             return new Ticket(UUID.randomUUID(), bag.getId(), this.id);
         }
     }
+
+    public Bag takeBag(Ticket ticket) {
+        return bags.stream().filter(b -> ticket.getBagId().equals(b.getId())).findFirst().get();
+    }
 }

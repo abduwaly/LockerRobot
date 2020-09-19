@@ -127,6 +127,18 @@ class LockerTests {
         assertThrows(NoStorageException.class, () -> robot.saveBag(bag));
     }
 
+    @Test
+    void should_return_bag_successfully_given_a_ticket_of_small_bag_provided() {
+        Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
+        Ticket ticket = locker.saveBag(bag);
+
+        Bag actual = locker.takeBag(ticket);
+
+        assertNotNull(actual);
+        assertEquals(actual.getId(), bag.getId());
+    }
+
     private PrimaryLockerRobot initRobot(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
