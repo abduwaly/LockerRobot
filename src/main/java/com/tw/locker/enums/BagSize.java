@@ -1,4 +1,4 @@
-package com.tw.locker;
+package com.tw.locker.enums;
 
 public enum BagSize {
     SMALL,

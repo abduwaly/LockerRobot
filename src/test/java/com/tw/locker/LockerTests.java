@@ -1,6 +1,11 @@
 package com.tw.locker;
 
 
+import com.tw.locker.enums.BagSize;
+import com.tw.locker.enums.LockerType;
+import com.tw.locker.exceptions.BagNotFoundException;
+import com.tw.locker.exceptions.FakeTicketException;
+import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

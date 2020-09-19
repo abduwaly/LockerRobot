@@ -103,7 +103,7 @@ Then 存包失败，并提示无可用容量
 
 17. Given 一个存储大包的造假票据 When 尝试由SuperLockerRobot取包 Then 取包失败，并提示无效票据
 
-#### VIP客户存包场景 （VIP身份线下判断）
+#### VIP客户存包场景（VIP身份线下判断）
 
 18. Given 一个小包，一个LockerRobotManager管理一个Locker并有容量 When 存包 Then 成功存包到Locker，并返回票据
 
