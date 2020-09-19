@@ -1,5 +1,7 @@
 package com.tw.locker;
 
+import com.tw.locker.enums.BagSize;
+import com.tw.locker.exceptions.BagNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +18,9 @@ public class SuperLockerRobot {
     private List<Locker> lockers;
 
     public Ticket saveBag(Bag bag) {
+        if(bag.getSize() != BagSize.LARGE){
+            throw new BagNotMatchException();
+        }
 
         if (this.lockers.stream().noneMatch(l -> l.vacancyRate() > 0)) {
             throw new NoStorageException();
