@@ -48,6 +48,10 @@ public class Locker {
             throw new BagNotFoundException();
         }
 
+        if(!isTicketValid(ticket)){
+            throw new FakeTicketException();
+        }
+
         Optional<Bag> bag = bags.stream().filter(b -> ticket.getBagId().equals(b.getId())).findFirst();
         if (bag.isPresent()) {
             return bag.get();
