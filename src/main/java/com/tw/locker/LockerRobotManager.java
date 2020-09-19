@@ -6,18 +6,16 @@ import com.tw.locker.exceptions.BagNotFoundException;
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.LockerNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Getter
 public class LockerRobotManager {
 
     private List<Locker> lockers;
-    private List<AbstractLockerRobot> abstractLockerRobots;
-    private List<SuperAbstractLockerRobot> superLockerRobots;
+    private final List<AbstractLockerRobot> abstractLockerRobots;
+    private final List<SuperAbstractLockerRobot> superLockerRobots;
 
     public LockerRobotManager(List<Locker> lockers, List<AbstractLockerRobot> abstractLockerRobots, List<SuperAbstractLockerRobot> superLockerRobots) {
         if (lockers != null) {

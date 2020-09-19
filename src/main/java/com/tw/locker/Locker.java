@@ -22,12 +22,11 @@ public class Locker {
     private final LockerType type;
     private final int capacity;
 
-
     private List<Bag> bags = new ArrayList<>();
     private List<Ticket> tickets = new ArrayList<>();
 
     public double vacancyRate() {
-        return (double) (this.capacity - this.getBags().size()) / this.capacity;
+        return (double) (this.getCapacity() - this.getBags().size()) / this.getCapacity();
     }
 
     public Ticket saveBag(Bag bag) {
@@ -35,7 +34,7 @@ public class Locker {
             throw new BagNotMatchException();
         }
 
-        if (this.capacity <= 0) {
+        if (this.getCapacity() <= 0) {
             throw new NoStorageException();
         }
 
@@ -58,7 +57,7 @@ public class Locker {
         if (bag.isPresent()) {
             return bag.get();
         } else {
-            throw new FakeTicketException();
+            throw new BagNotFoundException();
         }
     }
 
