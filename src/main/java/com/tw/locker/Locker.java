@@ -3,12 +3,12 @@ package com.tw.locker;
 import com.tw.locker.enums.BagSize;
 import com.tw.locker.enums.LockerType;
 import com.tw.locker.exceptions.BagNotFoundException;
+import com.tw.locker.exceptions.BagNotMatchException;
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.boot.configurationprocessor.MetadataCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +33,18 @@ public class Locker {
     }
 
     public Ticket saveBag(Bag bag) {
+        if(!isBagSizeMatchLockerType(bag.getSize())){
+            throw new BagNotMatchException();
+        }
+
         if (this.capacity <= 0) {
             throw new NoStorageException();
-        } else {
-            Ticket ticket = new Ticket(UUID.randomUUID(), bag.getId(), this.id, bag.getSize());
-            this.bags.add(bag);
-            this.tickets.add(ticket);
-            return ticket;
         }
+
+        Ticket ticket = new Ticket(UUID.randomUUID(), bag.getId(), this.id, bag.getSize());
+        this.bags.add(bag);
+        this.tickets.add(ticket);
+        return ticket;
     }
 
     public Bag takeBag(Ticket ticket) {
@@ -48,7 +52,7 @@ public class Locker {
             throw new BagNotFoundException();
         }
 
-        if(!isTicketValid(ticket)){
+        if (!isTicketValid(ticket)) {
             throw new FakeTicketException();
         }
 

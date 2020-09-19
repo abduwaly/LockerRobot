@@ -223,6 +223,13 @@ class LockerTests {
         assertThrows(BagNotMatchException.class, () -> robot.saveBag(bag));
     }
 
+    @Test
+    void should_return_bag_not_match_exception_given_a_large_bag_to_locker(){
+        Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 2);
+
+        assertThrows(BagNotMatchException.class, ()->locker.saveBag(bag));
+    }
 
     private PrimaryLockerRobot initPrimaryRobot(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
