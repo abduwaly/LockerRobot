@@ -2,11 +2,13 @@ package com.tw.locker;
 
 import com.tw.locker.enums.BagSize;
 import com.tw.locker.enums.LockerType;
+import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -144,6 +146,21 @@ public class RobotManagerTests {
 
         assertNotNull(actual);
         assertEquals(actual.getId(), bag.getId());
+    }
+
+    @Test
+    void should_return_fake_ticket_exception_for_VIP_user_given_a_fake_ticket_provided() {
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
+        List<Locker> lockers = new ArrayList<>();
+        lockers.add(locker);
+        LockerRobotManager manager = new LockerRobotManager(lockers, null, null);
+
+        Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
+        manager.saveBag(bag);
+
+        Ticket fakeTicket = new Ticket(UUID.randomUUID(), TEST_BAG_1, TEST_LOCKER_1, BagSize.SMALL);
+
+        assertThrows(FakeTicketException.class, () -> manager.takeBag(fakeTicket));
     }
 
     private List<PrimaryLockerRobot> initPrimaryRobots(LockerType type, int firstCapacity, int secondCapacity) {

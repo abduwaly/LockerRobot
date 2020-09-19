@@ -2,6 +2,7 @@ package com.tw.locker;
 
 import com.tw.locker.enums.BagSize;
 import com.tw.locker.exceptions.BagNotFoundException;
+import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,6 +46,11 @@ public class LockerRobotManager {
 
     public Bag takeBag(Ticket ticket) {
         if(ticket.getBagSize() == BagSize.SMALL){
+
+            if(this.lockers.stream().noneMatch(l -> l.isTicketValid(ticket))){
+                throw new FakeTicketException();
+            }
+
             Optional<Locker> correspondingLocker = this.lockers.stream().filter(l-> l.getId().equals(ticket.getLockerId())).findFirst();
             if(correspondingLocker.isPresent()){
                 return correspondingLocker.get().takeBag(ticket);

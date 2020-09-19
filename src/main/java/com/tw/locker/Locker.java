@@ -8,6 +8,7 @@ import com.tw.locker.exceptions.NoStorageException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.configurationprocessor.MetadataCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Locker {
 
 
     private List<Bag> bags = new ArrayList<>();
+    private List<Ticket> tickets = new ArrayList<>();
 
     public double vacancyRate() {
         return (double) (this.capacity - this.getBags().size()) / this.capacity;
@@ -34,8 +36,10 @@ public class Locker {
         if (this.capacity <= 0) {
             throw new NoStorageException();
         } else {
+            Ticket ticket = new Ticket(UUID.randomUUID(), bag.getId(), this.id, bag.getSize());
             this.bags.add(bag);
-            return new Ticket(UUID.randomUUID(), bag.getId(), this.id, bag.getSize());
+            this.tickets.add(ticket);
+            return ticket;
         }
     }
 
@@ -61,5 +65,9 @@ public class Locker {
         }
 
         return this.type == LockerType.S && bagSize == BagSize.SMALL;
+    }
+
+    public boolean isTicketValid(Ticket ticket) {
+        return this.tickets.stream().anyMatch(t -> t.getId() == ticket.getId());
     }
 }
