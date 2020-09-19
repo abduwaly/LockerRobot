@@ -3,6 +3,7 @@ package com.tw.locker;
 import com.tw.locker.enums.BagSize;
 import com.tw.locker.enums.LockerType;
 import com.tw.locker.exceptions.FakeTicketException;
+import com.tw.locker.exceptions.LockerNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
 
@@ -161,6 +162,15 @@ public class RobotManagerTests {
         Ticket fakeTicket = new Ticket(UUID.randomUUID(), TEST_BAG_1, TEST_LOCKER_1, BagSize.SMALL);
 
         assertThrows(FakeTicketException.class, () -> manager.takeBag(fakeTicket));
+    }
+
+    @Test
+    void should_return_locker_not_match_given_a_M_locker_set_to_locker_robot_manager() {
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.M, 1);
+        List<Locker> lockers = new ArrayList<>();
+        lockers.add(locker);
+
+        assertThrows(LockerNotMatchException.class, () -> new LockerRobotManager(lockers, null, null));
     }
 
     private List<LockerRobotBase> initPrimaryRobots(LockerType type, int firstCapacity, int secondCapacity) {

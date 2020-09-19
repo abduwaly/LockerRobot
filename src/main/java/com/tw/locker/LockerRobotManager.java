@@ -1,8 +1,10 @@
 package com.tw.locker;
 
 import com.tw.locker.enums.BagSize;
+import com.tw.locker.enums.LockerType;
 import com.tw.locker.exceptions.BagNotFoundException;
 import com.tw.locker.exceptions.FakeTicketException;
+import com.tw.locker.exceptions.LockerNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 @Setter
 public class LockerRobotManager {
@@ -20,6 +21,19 @@ public class LockerRobotManager {
     private List<Locker> lockers;
     private List<LockerRobotBase> lockerRobotBases;
     private List<SuperLockerRobot> superLockerRobots;
+
+    public LockerRobotManager(List<Locker> lockers, List<LockerRobotBase> lockerRobotBases, List<SuperLockerRobot> superLockerRobots) {
+        if(lockers != null){
+            if(lockers.stream().allMatch(l->l.getType() == LockerType.S)) {
+                this.lockers = lockers;
+            }else {
+                throw new LockerNotMatchException();
+            }
+        }
+
+        this.lockerRobotBases = lockerRobotBases;
+        this.superLockerRobots = superLockerRobots;
+    }
 
     public Ticket saveBag(Bag bag) {
         if (bag.getSize() == BagSize.SMALL) {
