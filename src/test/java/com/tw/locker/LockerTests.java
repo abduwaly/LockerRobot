@@ -4,6 +4,7 @@ package com.tw.locker;
 import com.tw.locker.enums.BagSize;
 import com.tw.locker.enums.LockerType;
 import com.tw.locker.exceptions.BagNotFoundException;
+import com.tw.locker.exceptions.BagNotMatchException;
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
@@ -204,6 +205,14 @@ class LockerTests {
         Ticket fakeTicket = new Ticket(UUID.randomUUID(), "fake-bag-0", ticket.getLockerId(), BagSize.LARGE);
 
         assertThrows(FakeTicketException.class, ()->robot.takeBag(fakeTicket));
+    }
+
+    @Test
+    void should_return_bag_not_match_exception_given_a_small_bag_provided_to_primary_robot() {
+        Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1, 1);
+
+        assertThrows(BagNotMatchException.class, () -> robot.saveBag(bag));
     }
 
     private PrimaryLockerRobot initPrimaryRobot(LockerType type, int firstCapacity, int secondCapacity) {
