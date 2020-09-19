@@ -21,7 +21,7 @@ public class LockerRobotManager {
         if(bag.getSize() == BagSize.SMALL){
             List<Locker> availableLockers = this.lockers.stream().filter(l-> l.vacancyRate() > 0).collect(Collectors.toList());
 
-            if(availableLockers.stream().count() > 0){
+            if((long) availableLockers.size() > 0){
                 return availableLockers.get(0).saveBag(bag);
             } else {
                 throw new NoStorageException();
@@ -31,7 +31,7 @@ public class LockerRobotManager {
         if(bag.getSize() == BagSize.MEDIUM){
             List<Locker> availableLockers = this.primaryLockerRobots.get(0).getLockers().stream().filter(l -> l.vacancyRate()>0).collect(Collectors.toList());
 
-            if(availableLockers.stream().count() > 0){
+            if((long) availableLockers.size() > 0){
                 return availableLockers.get(0).saveBag(bag);
             } else {
                 throw new NoStorageException();
