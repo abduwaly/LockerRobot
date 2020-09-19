@@ -32,23 +32,11 @@ public class LockerRobotManager {
         }
 
         if(bag.getSize() == BagSize.MEDIUM){
-            List<Locker> availableLockers = this.primaryLockerRobots.get(0).getLockers().stream().filter(l -> l.vacancyRate()>0).collect(Collectors.toList());
-
-            if((long) availableLockers.size() > 0){
-                return availableLockers.get(0).saveBag(bag);
-            } else {
-                throw new NoStorageException();
-            }
+            return this.primaryLockerRobots.get(0).saveBag(bag);
         }
 
         if(bag.getSize() == BagSize.LARGE){
-            List<Locker> availableLockers = this.superLockerRobots.get(0).getLockers().stream().filter(l -> l.vacancyRate()>0).collect(Collectors.toList());
-
-            if((long) availableLockers.size() > 0){
-                return availableLockers.get(0).saveBag(bag);
-            } else {
-                throw new NoStorageException();
-            }
+            return this.superLockerRobots.get(0).saveBag(bag);
         }
 
 

@@ -15,7 +15,7 @@ public class PrimaryLockerRobot {
     private List<Locker> lockers;
 
     public Ticket saveBag(Bag bag) {
-        Optional<Locker> target = lockers.stream().filter(l -> l.getCapacity() > 0).findFirst();
+        Optional<Locker> target = lockers.stream().filter(l -> l.vacancyRate() > 0).findFirst();
 
         if(target.isPresent()) {
             return target.get().saveBag(bag);
