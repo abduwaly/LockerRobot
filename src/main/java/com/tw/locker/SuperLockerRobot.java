@@ -1,7 +1,9 @@
 package com.tw.locker;
 
 import com.tw.locker.enums.BagSize;
+import com.tw.locker.enums.LockerType;
 import com.tw.locker.exceptions.BagNotMatchException;
+import com.tw.locker.exceptions.LockerNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +18,13 @@ import java.util.Optional;
 @Setter
 public class SuperLockerRobot extends LockerRobotBase {
     public SuperLockerRobot(List<Locker> lockers) {
-        this.lockers = lockers;
+        if(lockers.stream().allMatch(locker -> locker.getType() == LockerType.L)){
+            this.lockers = lockers;
+        } else {
+            this.lockers = null;
+            throw new LockerNotMatchException();
+        }
+
     }
 
     @Override

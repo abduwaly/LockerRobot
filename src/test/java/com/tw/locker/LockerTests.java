@@ -3,10 +3,7 @@ package com.tw.locker;
 
 import com.tw.locker.enums.BagSize;
 import com.tw.locker.enums.LockerType;
-import com.tw.locker.exceptions.BagNotFoundException;
-import com.tw.locker.exceptions.BagNotMatchException;
-import com.tw.locker.exceptions.FakeTicketException;
-import com.tw.locker.exceptions.NoStorageException;
+import com.tw.locker.exceptions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -229,6 +226,15 @@ class LockerTests {
         Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 2);
 
         assertThrows(BagNotMatchException.class, () -> locker.saveBag(bag));
+    }
+
+    @Test
+    void should_return_locker_not_match_given_a_S_locker_set_to_super_locker_robot() {
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
+        List<Locker> lockers = new ArrayList<>();
+        lockers.add(locker);
+
+        assertThrows(LockerNotMatchException.class, () -> new SuperLockerRobot(lockers));
     }
 
     private LockerRobotBase initPrimaryRobot(LockerType type, int firstCapacity, int secondCapacity) {
