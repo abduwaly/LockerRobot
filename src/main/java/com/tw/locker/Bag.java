@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class Bag {
 
-    private String id;
-    private BagSize size;
+    private final String id;
+    private final BagSize size;
 
 }

@@ -9,8 +9,8 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class Ticket {
-    private UUID id;
-    private String bagId;
-    private String lockerId;
-    private BagSize bagSize;
+    private final UUID id;
+    private final String bagId;
+    private final String lockerId;
+    private final BagSize bagSize;
 }

@@ -2,7 +2,6 @@ package com.tw.locker;
 
 import com.tw.locker.enums.BagSize;
 import com.tw.locker.enums.LockerType;
-import com.tw.locker.exceptions.BagNotFoundException;
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.LockerNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
@@ -13,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class LockerRobotManager {
 
-    private List<Locker> lockers;
     private final List<AbstractLockerRobot> abstractLockerRobots;
     private final List<SuperAbstractLockerRobot> superLockerRobots;
+    private List<Locker> lockers;
 
     public LockerRobotManager(List<Locker> lockers, List<AbstractLockerRobot> abstractLockerRobots, List<SuperAbstractLockerRobot> superLockerRobots) {
         if (lockers != null) {
@@ -45,11 +44,9 @@ public class LockerRobotManager {
             return this.abstractLockerRobots.get(0).saveBag(bag);
         }
 
-        if (bag.getSize() == BagSize.LARGE) {
-            return this.superLockerRobots.get(0).saveBag(bag);
-        }
 
-        throw new RuntimeException();
+        return this.superLockerRobots.get(0).saveBag(bag);
+
     }
 
     public Bag takeBag(Ticket ticket) {
@@ -69,10 +66,6 @@ public class LockerRobotManager {
             return this.abstractLockerRobots.get(0).takeBag(ticket);
         }
 
-        if (ticket.getBagSize() == BagSize.LARGE) {
-            return this.superLockerRobots.get(0).takeBag(ticket);
-        }
-
-        throw new BagNotFoundException();
+        return this.superLockerRobots.get(0).takeBag(ticket);
     }
 }

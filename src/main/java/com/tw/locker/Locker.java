@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -22,8 +21,8 @@ public class Locker {
     private final LockerType type;
     private final int capacity;
 
-    private List<Bag> bags = new ArrayList<>();
-    private List<Ticket> tickets = new ArrayList<>();
+    private final List<Bag> bags = new ArrayList<>();
+    private final List<Ticket> tickets = new ArrayList<>();
 
     public double vacancyRate() {
         return (double) (this.getCapacity() - this.getBags().size()) / this.getCapacity();
@@ -51,13 +50,8 @@ public class Locker {
 
         if (!isTicketValid(ticket)) {
             throw new FakeTicketException();
-        }
-
-        Optional<Bag> bag = bags.stream().filter(b -> ticket.getBagId().equals(b.getId())).findFirst();
-        if (bag.isPresent()) {
-            return bag.get();
         } else {
-            throw new BagNotFoundException();
+            return bags.stream().filter(b -> ticket.getBagId().equals(b.getId())).findFirst().get();
         }
     }
 
