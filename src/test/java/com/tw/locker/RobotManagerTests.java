@@ -49,7 +49,7 @@ public class RobotManagerTests {
     @Test
     void should_save_bag_successfully_for_VIP_user_given_medium_bag_and_a_manager_with_a_PrimaryLockerRobot_has_storage() {
 
-        List<PrimaryLockerRobot> robots = initPrimaryRobots(LockerType.M, 1, 1);
+        List<LockerRobotBase> robots = initPrimaryRobots(LockerType.M, 1, 1);
 
         LockerRobotManager manager = new LockerRobotManager(null, robots, null);
 
@@ -65,7 +65,7 @@ public class RobotManagerTests {
     @Test
     void should_return_no_storage_exception_for_VIP_user_given_medium_bag_and_a_manager_with_a_PrimaryLockerRobot_without_storage() {
 
-        List<PrimaryLockerRobot> robots = initPrimaryRobots(LockerType.M, 1, 1);
+        List<LockerRobotBase> robots = initPrimaryRobots(LockerType.M, 1, 1);
 
         LockerRobotManager manager = new LockerRobotManager(null, robots, null);
         manager.saveBag(new Bag("temp1", BagSize.MEDIUM));
@@ -122,7 +122,7 @@ public class RobotManagerTests {
 
     @Test
     void should_return_bag_for_VIP_user_given_a_ticket_of_medium_bag() {
-        List<PrimaryLockerRobot> robots = initPrimaryRobots(LockerType.M, 1, 1);
+        List<LockerRobotBase> robots = initPrimaryRobots(LockerType.M, 1, 1);
         LockerRobotManager manager = new LockerRobotManager(null, robots, null);
 
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
@@ -163,14 +163,14 @@ public class RobotManagerTests {
         assertThrows(FakeTicketException.class, () -> manager.takeBag(fakeTicket));
     }
 
-    private List<PrimaryLockerRobot> initPrimaryRobots(LockerType type, int firstCapacity, int secondCapacity) {
+    private List<LockerRobotBase> initPrimaryRobots(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
         List<Locker> lockers = new ArrayList<>();
         lockers.add(locker1);
         lockers.add(locker2);
 
-        List<PrimaryLockerRobot> result = new ArrayList<>();
+        List<LockerRobotBase> result = new ArrayList<>();
         result.add(new PrimaryLockerRobot(lockers));
 
         return result;

@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-class Bag {
+public class Bag {
 
     private String id;
     private BagSize size;

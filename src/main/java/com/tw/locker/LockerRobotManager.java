@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class LockerRobotManager {
 
     private List<Locker> lockers;
-    private List<PrimaryLockerRobot> primaryLockerRobots;
+    private List<LockerRobotBase> lockerRobotBases;
     private List<SuperLockerRobot> superLockerRobots;
 
     public Ticket saveBag(Bag bag) {
@@ -33,7 +33,7 @@ public class LockerRobotManager {
         }
 
         if (bag.getSize() == BagSize.MEDIUM) {
-            return this.primaryLockerRobots.get(0).saveBag(bag);
+            return this.lockerRobotBases.get(0).saveBag(bag);
         }
 
         if (bag.getSize() == BagSize.LARGE) {
@@ -58,7 +58,7 @@ public class LockerRobotManager {
         }
 
         if (ticket.getBagSize() == BagSize.MEDIUM) {
-            return this.primaryLockerRobots.get(0).takeBag(ticket);
+            return this.lockerRobotBases.get(0).takeBag(ticket);
         }
 
         if (ticket.getBagSize() == BagSize.LARGE) {

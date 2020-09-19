@@ -14,9 +14,12 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 @Setter
-public class SuperLockerRobot {
-    private List<Locker> lockers;
+public class SuperLockerRobot extends LockerRobotBase {
+    public SuperLockerRobot(List<Locker> lockers) {
+        this.lockers = lockers;
+    }
 
+    @Override
     public Ticket saveBag(Bag bag) {
         if (bag.getSize() != BagSize.LARGE) {
             throw new BagNotMatchException();
@@ -30,6 +33,7 @@ public class SuperLockerRobot {
         return target.get().saveBag(bag);
     }
 
+    @Override
     public Bag takeBag(Ticket ticket) {
         Locker correspondingLocker = lockers.stream().filter(l -> l.getId().equals(ticket.getLockerId())).findFirst().get();
 

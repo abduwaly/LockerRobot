@@ -13,15 +13,18 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PrimaryLockerRobot {
-    private List<Locker> lockers;
+public class PrimaryLockerRobot extends LockerRobotBase {
+    public PrimaryLockerRobot(List<Locker> lockers) {
+        this.lockers = lockers;
+    }
 
+    @Override
     public Ticket saveBag(Bag bag) {
         if (bag.getSize() != BagSize.MEDIUM) {
             throw new BagNotMatchException();
         }
 
-        Optional<Locker> target = lockers.stream().filter(l -> l.vacancyRate() > 0).findFirst();
+        Optional<Locker> target = this.lockers.stream().filter(l -> l.vacancyRate() > 0).findFirst();
 
         if (target.isPresent()) {
             return target.get().saveBag(bag);
@@ -30,6 +33,7 @@ public class PrimaryLockerRobot {
         }
     }
 
+    @Override
     public Bag takeBag(Ticket ticket) {
         Locker correspondingLocker = lockers.stream().filter(l -> l.getId().equals(ticket.getLockerId())).findFirst().get();
 
