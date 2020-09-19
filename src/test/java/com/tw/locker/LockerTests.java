@@ -127,22 +127,13 @@ class LockerTests {
 
     @Test
     void should_return_bag_by_super_locker_robot_given_a_ticket_of_large_bag_provided() {
+
+        SuperLockerRobot robot = initSuperLockerRobot(2, 2, true, false);
+
         Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
-
-        Locker locker1 = new Locker(TEST_LOCKER_1, LockerType.L, 2);
-        locker1.saveBag(new Bag("temp_bag", BagSize.LARGE));
-
-        Locker locker2 = new Locker(TEST_LOCKER_2, LockerType.L, 2);
-        List<Locker> lockers = new ArrayList<>();
-        lockers.add(locker1);
-        lockers.add(locker2);
-
-        SuperLockerRobot robot = new SuperLockerRobot(lockers);
-
         Ticket ticket = robot.saveBag(bag);
 
         Bag actual = robot.takeBag(ticket);
-
 
         assertNotNull(actual);
         assertEquals(actual.getId(), bag.getId());
