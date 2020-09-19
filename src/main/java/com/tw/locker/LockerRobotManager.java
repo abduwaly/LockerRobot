@@ -15,18 +15,29 @@ import java.util.stream.Collectors;
 public class LockerRobotManager {
 
     private List<Locker> lockers;
+    private List<PrimaryLockerRobot> primaryLockerRobots;
 
     public Ticket saveBag(Bag bag) {
-//        if(bag.getSize() == BagSize.SMALL){
-//
-//        }
+        if(bag.getSize() == BagSize.SMALL){
+            List<Locker> availableLockers = this.lockers.stream().filter(l-> l.vacancyRate() > 0).collect(Collectors.toList());
 
-        List<Locker> availableLockers = lockers.stream().filter(l-> l.vacancyRate() > 0).collect(Collectors.toList());
-
-        if(availableLockers.stream().count() > 0){
-            return availableLockers.get(0).saveBag(bag);
-        } else {
-            throw new NoStorageException();
+            if(availableLockers.stream().count() > 0){
+                return availableLockers.get(0).saveBag(bag);
+            } else {
+                throw new NoStorageException();
+            }
         }
+
+        if(bag.getSize() == BagSize.MEDIUM){
+            List<Locker> availableLockers = this.primaryLockerRobots.get(0).getLockers().stream().filter(l -> l.vacancyRate()>0).collect(Collectors.toList());
+
+            if(availableLockers.stream().count() > 0){
+                return availableLockers.get(0).saveBag(bag);
+            } else {
+                throw new NoStorageException();
+            }
+        }
+
+        throw new RuntimeException();
     }
 }
