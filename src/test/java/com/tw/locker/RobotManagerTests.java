@@ -90,6 +90,18 @@ public class RobotManagerTests {
 
     }
 
+    @Test
+    void should_return_no_storage_exception_for_VIP_user_given_large_bag_and_a_manager_with_a_PrimaryLockerRobot_without_storage() {
+        List<SuperLockerRobot> robots = initSuperRobots(LockerType.L, 1, 1);
+        LockerRobotManager manager = new LockerRobotManager(null, null, robots);
+        manager.saveBag(new Bag("temp1", BagSize.LARGE));
+        manager.saveBag(new Bag("temp2", BagSize.LARGE));
+
+        Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
+
+        assertThrows(NoStorageException.class, () -> manager.saveBag(bag));
+    }
+
     private List<PrimaryLockerRobot> initPrimaryRobots(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
