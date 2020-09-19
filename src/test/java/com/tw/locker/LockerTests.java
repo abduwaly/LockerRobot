@@ -161,6 +161,17 @@ class LockerTests {
         assertThrows(BagNotFoundException.class, ()-> superRobot.takeBag(ticket));
     }
 
+    @Test
+    void should_return_not_found_exception_given_a_ticket_of_small_bag_onto_primary_locker_robot() {
+        Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
+        Ticket ticket = locker.saveBag(bag);
+
+        PrimaryLockerRobot robot = initRobot(LockerType.M, 1, 1);
+
+        assertThrows(BagNotFoundException.class, ()->robot.takeBag(ticket));
+    }
+
     private PrimaryLockerRobot initRobot(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
