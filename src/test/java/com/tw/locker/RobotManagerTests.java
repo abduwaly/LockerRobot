@@ -2,13 +2,13 @@ package com.tw.locker;
 
 import com.tw.locker.enums.BagSize;
 import com.tw.locker.enums.LockerType;
+import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RobotManagerTests {
 
@@ -30,4 +30,17 @@ public class RobotManagerTests {
         assertEquals(actual.getBagId(), TEST_BAG_1);
         assertEquals(actual.getLockerId(), TEST_LOCKER_1);
     }
+
+    @Test
+    void should_return_no_storage_error_given_small_bag_and_S_locker_without_capacity(){
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
+        List<Locker> lockers = new ArrayList<>();
+        lockers.add(locker);
+        LockerRobotManager manager = new LockerRobotManager(lockers);
+        manager.saveBag(new Bag("tempBagId", BagSize.SMALL));
+
+        Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
+        assertThrows(NoStorageException.class, ()-> manager.saveBag(bag));
+    }
+
 }
