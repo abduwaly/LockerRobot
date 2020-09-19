@@ -191,6 +191,16 @@ class LockerTests {
         assertThrows(FakeTicketException.class, ()->robot.takeBag(fakeTicket));
     }
 
+    @Test
+    void should_return_fake_ticket_exception_given_a_fake_ticket_of_large_bag_onto_super_locker_robot() {
+        SuperLockerRobot robot = initSuperLockerRobot(1, 1, false, false);
+        Ticket ticket = robot.saveBag(new Bag("Test-bag", BagSize.LARGE));
+
+        Ticket fakeTicket = new Ticket(UUID.randomUUID(), "fake-bag-0", ticket.getLockerId(), BagSize.LARGE);
+
+        assertThrows(FakeTicketException.class, ()->robot.takeBag(fakeTicket));
+    }
+
     private PrimaryLockerRobot initRobot(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
