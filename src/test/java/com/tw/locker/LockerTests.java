@@ -139,6 +139,18 @@ class LockerTests {
         assertEquals(actual.getId(), bag.getId());
     }
 
+    @Test
+    void should_return_bag_by_primary_locker_robot_given_a_ticket_of_medium_bag_provided() {
+        Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
+        PrimaryLockerRobot robot = initRobot(LockerType.M, 1, 1);
+        Ticket ticket = robot.saveBag(bag);
+
+        Bag actual = robot.takeBag(ticket);
+
+        assertNotNull(actual);
+        assertEquals(actual.getId(), bag.getId());
+    }
+
     private PrimaryLockerRobot initRobot(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);

@@ -22,4 +22,10 @@ public class PrimaryLockerRobot {
             throw new NoStorageException();
         }
     }
+
+    public Bag takeBag(Ticket ticket) {
+        Locker correspondingLocker = lockers.stream().filter(l -> l.getId().equals(ticket.getLockerId())).findFirst().get();
+
+        return correspondingLocker.takeBag(ticket);
+    }
 }
