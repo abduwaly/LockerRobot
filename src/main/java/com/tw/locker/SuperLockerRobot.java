@@ -32,11 +32,4 @@ public class SuperLockerRobot extends LockerRobotBase {
         Optional<Locker> target = this.lockers.stream().max(Comparator.comparingDouble(Locker::vacancyRate));
         return target.get().saveBag(bag);
     }
-
-    @Override
-    public Bag takeBag(Ticket ticket) {
-        Locker correspondingLocker = lockers.stream().filter(l -> l.getId().equals(ticket.getLockerId())).findFirst().get();
-
-        return correspondingLocker.takeBag(ticket);
-    }
 }

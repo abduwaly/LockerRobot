@@ -33,10 +33,4 @@ public class PrimaryLockerRobot extends LockerRobotBase {
         }
     }
 
-    @Override
-    public Bag takeBag(Ticket ticket) {
-        Locker correspondingLocker = lockers.stream().filter(l -> l.getId().equals(ticket.getLockerId())).findFirst().get();
-
-        return correspondingLocker.takeBag(ticket);
-    }
 }
