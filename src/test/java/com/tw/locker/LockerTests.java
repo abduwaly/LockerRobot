@@ -43,7 +43,7 @@ class LockerTests {
     @Test
     void should_save_bag_successfully_and_return_ticket_given_medium_bag_and_primary_robot_with_2_M_lockers_both_has_capacity() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
-        PrimaryLockerRobot robot = initRobot(LockerType.M, 1, 1);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1, 1);
 
         Ticket actual = robot.saveBag(bag);
 
@@ -55,7 +55,7 @@ class LockerTests {
     @Test
     void should_save_bag_successfully_into_second_locker_and_return_ticket_given_medium_bag_and_primary_robot_with_2_M_lockers_and_only_second_has_capacity() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
-        PrimaryLockerRobot robot = initRobot(LockerType.M, 0, 1);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 0, 1);
 
         Ticket actual = robot.saveBag(bag);
 
@@ -67,7 +67,7 @@ class LockerTests {
     @Test
     void should_return_no_storage_exception_given_medium_bag_and_primary_robot_with_2_M_lockers_both_without_capacity() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
-        PrimaryLockerRobot robot = initRobot(LockerType.M, 0, 0);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 0, 0);
 
         assertThrows(NoStorageException.class, () -> robot.saveBag(bag));
     }
@@ -122,7 +122,7 @@ class LockerTests {
     @Test
     void should_return_bag_by_primary_locker_robot_given_a_ticket_of_medium_bag_provided() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
-        PrimaryLockerRobot robot = initRobot(LockerType.M, 1, 1);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1, 1);
         Ticket ticket = robot.saveBag(bag);
 
         Bag actual = robot.takeBag(ticket);
@@ -159,7 +159,7 @@ class LockerTests {
 
     @Test
     void should_return_not_found_exception_given_a_ticket_of_medium_bag_onto_super_locker_robot() {
-        PrimaryLockerRobot robot = initRobot(LockerType.M, 1, 1);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1, 1);
         Ticket ticket = robot.saveBag(new Bag("test-medium-bag", BagSize.MEDIUM));
 
         SuperLockerRobot superRobot = initSuperLockerRobot(2, 2, true, true);
@@ -173,7 +173,7 @@ class LockerTests {
         Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
         Ticket ticket = locker.saveBag(bag);
 
-        PrimaryLockerRobot robot = initRobot(LockerType.M, 1, 1);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1, 1);
 
         assertThrows(BagNotFoundException.class, ()->robot.takeBag(ticket));
     }
@@ -188,7 +188,7 @@ class LockerTests {
 
     @Test
     void should_return_fake_ticket_exception_given_a_fake_ticket_of_medium_bag_onto_primary_locker_robot() {
-        PrimaryLockerRobot robot = initRobot(LockerType.M, 1,1);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1,1);
         Ticket ticket = robot.saveBag(new Bag("Test-bag", BagSize.MEDIUM));
 
         Ticket fakeTicket = new Ticket(UUID.randomUUID(), "fake-bag-0", ticket.getLockerId(), BagSize.MEDIUM);
@@ -206,7 +206,7 @@ class LockerTests {
         assertThrows(FakeTicketException.class, ()->robot.takeBag(fakeTicket));
     }
 
-    private PrimaryLockerRobot initRobot(LockerType type, int firstCapacity, int secondCapacity) {
+    private PrimaryLockerRobot initPrimaryRobot(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
         List<Locker> lockers = new ArrayList<>();
