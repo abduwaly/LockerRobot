@@ -15,9 +15,9 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PrimaryLockerRobot extends LockerRobotBase {
-    public PrimaryLockerRobot(List<Locker> lockers) {
-        if(lockers.stream().allMatch(locker -> locker.getType() == LockerType.M)){
+public class PrimaryAbstractLockerRobot extends AbstractLockerRobot {
+    public PrimaryAbstractLockerRobot(List<Locker> lockers) {
+        if (lockers.stream().allMatch(locker -> locker.getType() == LockerType.M)) {
             this.lockers = lockers;
         } else {
             this.lockers = null;

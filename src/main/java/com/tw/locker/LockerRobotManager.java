@@ -6,7 +6,6 @@ import com.tw.locker.exceptions.BagNotFoundException;
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.LockerNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,19 +18,19 @@ import java.util.stream.Collectors;
 public class LockerRobotManager {
 
     private List<Locker> lockers;
-    private List<LockerRobotBase> lockerRobotBases;
-    private List<SuperLockerRobot> superLockerRobots;
+    private List<AbstractLockerRobot> abstractLockerRobots;
+    private List<SuperAbstractLockerRobot> superLockerRobots;
 
-    public LockerRobotManager(List<Locker> lockers, List<LockerRobotBase> lockerRobotBases, List<SuperLockerRobot> superLockerRobots) {
-        if(lockers != null){
-            if(lockers.stream().allMatch(l->l.getType() == LockerType.S)) {
+    public LockerRobotManager(List<Locker> lockers, List<AbstractLockerRobot> abstractLockerRobots, List<SuperAbstractLockerRobot> superLockerRobots) {
+        if (lockers != null) {
+            if (lockers.stream().allMatch(l -> l.getType() == LockerType.S)) {
                 this.lockers = lockers;
-            }else {
+            } else {
                 throw new LockerNotMatchException();
             }
         }
 
-        this.lockerRobotBases = lockerRobotBases;
+        this.abstractLockerRobots = abstractLockerRobots;
         this.superLockerRobots = superLockerRobots;
     }
 
@@ -47,7 +46,7 @@ public class LockerRobotManager {
         }
 
         if (bag.getSize() == BagSize.MEDIUM) {
-            return this.lockerRobotBases.get(0).saveBag(bag);
+            return this.abstractLockerRobots.get(0).saveBag(bag);
         }
 
         if (bag.getSize() == BagSize.LARGE) {
@@ -72,7 +71,7 @@ public class LockerRobotManager {
         }
 
         if (ticket.getBagSize() == BagSize.MEDIUM) {
-            return this.lockerRobotBases.get(0).takeBag(ticket);
+            return this.abstractLockerRobots.get(0).takeBag(ticket);
         }
 
         if (ticket.getBagSize() == BagSize.LARGE) {

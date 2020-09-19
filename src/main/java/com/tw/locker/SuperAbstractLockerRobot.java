@@ -16,9 +16,9 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 @Setter
-public class SuperLockerRobot extends LockerRobotBase {
-    public SuperLockerRobot(List<Locker> lockers) {
-        if(lockers.stream().allMatch(locker -> locker.getType() == LockerType.L)){
+public class SuperAbstractLockerRobot extends AbstractLockerRobot {
+    public SuperAbstractLockerRobot(List<Locker> lockers) {
+        if (lockers.stream().allMatch(locker -> locker.getType() == LockerType.L)) {
             this.lockers = lockers;
         } else {
             this.lockers = null;
