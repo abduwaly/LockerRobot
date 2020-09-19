@@ -102,6 +102,23 @@ public class RobotManagerTests {
         assertThrows(NoStorageException.class, () -> manager.saveBag(bag));
     }
 
+    @Test
+    void should_return_bag_for_VIP_user_given_a_ticket_of_small_bag() {
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
+        List<Locker> lockers = new ArrayList<>();
+        lockers.add(locker);
+        LockerRobotManager manager = new LockerRobotManager(lockers, null, null);
+
+        Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
+        Ticket ticket = manager.saveBag(bag);
+
+        Bag actual = manager.takeBag(ticket);
+
+        assertNotNull(actual);
+        assertEquals(actual.getId(), bag.getId());
+    }
+
+
     private List<PrimaryLockerRobot> initPrimaryRobots(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
