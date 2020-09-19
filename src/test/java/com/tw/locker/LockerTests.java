@@ -35,7 +35,7 @@ class LockerTests {
     }
 
     @Test
-    void should_save_bag_successfully_and_return_ticket_given_medium_bag_and_primary_robot_with_2_M_lockers_both_has_capacity(){
+    void should_save_bag_successfully_and_return_ticket_given_medium_bag_and_primary_robot_with_2_M_lockers_both_has_capacity() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
         PrimaryLockerRobot robot = initRobot(LockerType.M, 1, 1);
 
@@ -47,7 +47,7 @@ class LockerTests {
     }
 
     @Test
-    void should_save_bag_successfully_into_second_locker_and_return_ticket_given_medium_bag_and_primary_robot_with_2_M_lockers_and_only_second_has_capacity(){
+    void should_save_bag_successfully_into_second_locker_and_return_ticket_given_medium_bag_and_primary_robot_with_2_M_lockers_and_only_second_has_capacity() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
         PrimaryLockerRobot robot = initRobot(LockerType.M, 0, 1);
 
@@ -59,7 +59,7 @@ class LockerTests {
     }
 
     @Test
-    void should_return_no_storage_exception_given_medium_bag_and_primary_robot_with_2_M_lockers_both_without_capacity(){
+    void should_return_no_storage_exception_given_medium_bag_and_primary_robot_with_2_M_lockers_both_without_capacity() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
         PrimaryLockerRobot robot = initRobot(LockerType.M, 0, 0);
 
@@ -68,18 +68,10 @@ class LockerTests {
 
     @Test
     void should_save_bag_into_second_given_large_bag_and_super_robot_with_2_L_lockers_and_second_has_more_vacancy_rate() {
+
+        SuperLockerRobot robot = initSuperLockerRobot(2, 2, true, false);
+
         Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
-
-        Locker locker1 = new Locker(TEST_LOCKER_1, LockerType.L, 2);
-        locker1.saveBag(new Bag("temp_bag", BagSize.LARGE));
-
-        Locker locker2 = new Locker(TEST_LOCKER_2, LockerType.L, 2);
-        List<Locker> lockers = new ArrayList<>();
-        lockers.add(locker1);
-        lockers.add(locker2);
-
-        SuperLockerRobot robot = new SuperLockerRobot(lockers);
-
         Ticket actual = robot.saveBag(bag);
 
         assertNotNull(actual);
@@ -89,18 +81,10 @@ class LockerTests {
 
     @Test
     void should_save_bag_into_second_given_large_bag_and_super_robot_with_2_L_lockers_and_only_second_has_capacity() {
+
+        SuperLockerRobot robot = initSuperLockerRobot(1, 2, true, false);
+
         Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
-
-        Locker locker1 = new Locker(TEST_LOCKER_1, LockerType.L, 1);
-        locker1.saveBag(new Bag("temp_bag", BagSize.LARGE));
-
-        Locker locker2 = new Locker(TEST_LOCKER_2, LockerType.L, 2);
-        List<Locker> lockers = new ArrayList<>();
-        lockers.add(locker1);
-        lockers.add(locker2);
-
-        SuperLockerRobot robot = new SuperLockerRobot(lockers);
-
         Ticket actual = robot.saveBag(bag);
 
         assertNotNull(actual);
@@ -112,17 +96,7 @@ class LockerTests {
     void should_return_no_storage_exception_given_large_bag_and_super_robot_with_2_L_lockers_and_both_has_no_capacity() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
 
-        Locker locker1 = new Locker(TEST_LOCKER_1, LockerType.L, 1);
-        locker1.saveBag(new Bag("temp_bag11", BagSize.LARGE));
-
-        Locker locker2 = new Locker(TEST_LOCKER_2, LockerType.L, 1);
-        locker2.saveBag(new Bag("temp_bag22", BagSize.LARGE));
-
-        List<Locker> lockers = new ArrayList<>();
-        lockers.add(locker1);
-        lockers.add(locker2);
-
-        SuperLockerRobot robot = new SuperLockerRobot(lockers);
+        SuperLockerRobot robot = initSuperLockerRobot(1, 1, true, true);
 
         assertThrows(NoStorageException.class, () -> robot.saveBag(bag));
     }
@@ -182,5 +156,23 @@ class LockerTests {
         lockers.add(locker2);
 
         return new PrimaryLockerRobot(lockers);
+    }
+
+    private SuperLockerRobot initSuperLockerRobot(int firstCapacity, int secondCapacity, boolean hasInitial1, boolean hasInitial2) {
+        Locker locker1 = new Locker(TEST_LOCKER_1, LockerType.L, firstCapacity);
+        if (hasInitial1) {
+            locker1.saveBag(new Bag("temp_bag11", BagSize.LARGE));
+        }
+
+        Locker locker2 = new Locker(TEST_LOCKER_2, LockerType.L, secondCapacity);
+        if (hasInitial2) {
+            locker2.saveBag(new Bag("temp_bag22", BagSize.LARGE));
+        }
+
+        List<Locker> lockers = new ArrayList<>();
+        lockers.add(locker1);
+        lockers.add(locker2);
+
+        return new SuperLockerRobot(lockers);
     }
 }
