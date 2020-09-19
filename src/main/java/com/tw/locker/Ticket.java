@@ -14,6 +14,6 @@ public class Ticket {
     private UUID id;
     private String bagId;
     private String lockerId;
-
+    private BagSize bagSize;
 
 }

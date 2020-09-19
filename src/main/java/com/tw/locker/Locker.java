@@ -30,16 +30,31 @@ public class Locker {
             throw new NoStorageException();
         } else {
             this.bags.add(bag);
-            return new Ticket(UUID.randomUUID(), bag.getId(), this.id);
+            return new Ticket(UUID.randomUUID(), bag.getId(), this.id, bag.getSize());
         }
     }
 
     public Bag takeBag(Ticket ticket) {
+        if (!isBagSizeMatchLockerType(ticket.getBagSize())) {
+            throw new BagNotFoundException();
+        }
+
         Optional<Bag> bag = bags.stream().filter(b -> ticket.getBagId().equals(b.getId())).findFirst();
         if (bag.isPresent()) {
             return bag.get();
         } else {
             throw new BagNotFoundException();
         }
+    }
+
+    private boolean isBagSizeMatchLockerType(BagSize bagSize) {
+        if (this.type == LockerType.L && bagSize == BagSize.LARGE) {
+            return true;
+        }
+        if (this.type == LockerType.M && bagSize == BagSize.MEDIUM) {
+            return true;
+        }
+
+        return this.type == LockerType.S && bagSize == BagSize.SMALL;
     }
 }
