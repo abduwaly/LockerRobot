@@ -8,7 +8,6 @@ import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Getter
-@Setter
 public class Locker {
 
     private final String id;

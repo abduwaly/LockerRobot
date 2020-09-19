@@ -7,14 +7,12 @@ import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.LockerNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
 public class LockerRobotManager {
 
     private List<Locker> lockers;
@@ -52,7 +50,6 @@ public class LockerRobotManager {
         if (bag.getSize() == BagSize.LARGE) {
             return this.superLockerRobots.get(0).saveBag(bag);
         }
-
 
         throw new RuntimeException();
     }

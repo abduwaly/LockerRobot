@@ -5,14 +5,12 @@ import com.tw.locker.enums.LockerType;
 import com.tw.locker.exceptions.BagNotMatchException;
 import com.tw.locker.exceptions.LockerNotMatchException;
 import com.tw.locker.exceptions.NoStorageException;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
 @Getter
 @Setter
 public class PrimaryAbstractLockerRobot extends AbstractLockerRobot {
