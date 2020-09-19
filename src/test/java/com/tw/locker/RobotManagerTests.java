@@ -132,6 +132,20 @@ public class RobotManagerTests {
         assertEquals(actual.getId(), bag.getId());
     }
 
+    @Test
+    void should_return_bag_for_VIP_user_given_a_ticket_of_large_bag() {
+        List<SuperLockerRobot> robots = initSuperRobots(LockerType.L, 1, 1);
+        LockerRobotManager manager = new LockerRobotManager(null, null, robots);
+
+        Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
+        Ticket ticket = manager.saveBag(bag);
+
+        Bag actual = manager.takeBag(ticket);
+
+        assertNotNull(actual);
+        assertEquals(actual.getId(), bag.getId());
+    }
+
     private List<PrimaryLockerRobot> initPrimaryRobots(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);

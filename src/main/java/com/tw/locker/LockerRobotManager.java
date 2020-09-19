@@ -55,6 +55,10 @@ public class LockerRobotManager {
             return this.primaryLockerRobots.get(0).takeBag(ticket);
         }
 
+        if(ticket.getBagSize() == BagSize.LARGE){
+            return this.superLockerRobots.get(0).takeBag(ticket);
+        }
+
         throw new BagNotFoundException();
     }
 }
