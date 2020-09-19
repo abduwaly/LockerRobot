@@ -56,9 +56,15 @@ public class LockerRobotManager {
     }
 
     public Bag takeBag(Ticket ticket) {
-        Optional<Locker> correspondingLocker = this.lockers.stream().filter(l-> l.getId().equals(ticket.getLockerId())).findFirst();
-        if(correspondingLocker.isPresent()){
-            return correspondingLocker.get().takeBag(ticket);
+        if(ticket.getBagSize() == BagSize.SMALL){
+            Optional<Locker> correspondingLocker = this.lockers.stream().filter(l-> l.getId().equals(ticket.getLockerId())).findFirst();
+            if(correspondingLocker.isPresent()){
+                return correspondingLocker.get().takeBag(ticket);
+            }
+        }
+
+        if(ticket.getBagSize() == BagSize.MEDIUM){
+            return this.primaryLockerRobots.get(0).takeBag(ticket);
         }
 
         throw new BagNotFoundException();
