@@ -237,6 +237,15 @@ class LockerTests {
         assertThrows(LockerNotMatchException.class, () -> new SuperLockerRobot(lockers));
     }
 
+    @Test
+    void should_return_locker_not_match_given_a_L_locker_set_to_primary_locker_robot() {
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.L, 1);
+        List<Locker> lockers = new ArrayList<>();
+        lockers.add(locker);
+
+        assertThrows(LockerNotMatchException.class, () -> new PrimaryLockerRobot(lockers));
+    }
+
     private LockerRobotBase initPrimaryRobot(LockerType type, int firstCapacity, int secondCapacity) {
         Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
         Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);

@@ -24,7 +24,6 @@ public class SuperLockerRobot extends LockerRobotBase {
             this.lockers = null;
             throw new LockerNotMatchException();
         }
-
     }
 
     @Override
