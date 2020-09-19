@@ -23,4 +23,10 @@ public class SuperLockerRobot {
         Optional<Locker> target = this.lockers.stream().max(Comparator.comparingDouble(Locker::vacancyRate));
         return target.get().saveBag(bag);
     }
+
+    public Bag takeBag(Ticket ticket) {
+        Locker correspondingLocker = lockers.stream().filter(l -> l.getId().equals(ticket.getLockerId())).findFirst().get();
+
+        return correspondingLocker.takeBag(ticket);
+    }
 }
