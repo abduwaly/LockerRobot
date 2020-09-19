@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -170,6 +171,14 @@ class LockerTests {
         PrimaryLockerRobot robot = initRobot(LockerType.M, 1, 1);
 
         assertThrows(BagNotFoundException.class, ()->robot.takeBag(ticket));
+    }
+
+    @Test
+    void should_return_fake_exception_given_a_ticket_of_small_bag_onto_locker() {
+        Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
+        Ticket fakeTicket = new Ticket(UUID.randomUUID(), "fake-bag-0", locker.getId(), BagSize.SMALL);
+
+        assertThrows(FakeTicketException.class, () -> locker.takeBag(fakeTicket));
     }
 
     private PrimaryLockerRobot initRobot(LockerType type, int firstCapacity, int secondCapacity) {

@@ -43,7 +43,7 @@ public class Locker {
         if (bag.isPresent()) {
             return bag.get();
         } else {
-            throw new BagNotFoundException();
+            throw new FakeTicketException();
         }
     }
 
