@@ -16,6 +16,7 @@ public class LockerRobotManager {
 
     private List<Locker> lockers;
     private List<PrimaryLockerRobot> primaryLockerRobots;
+    private List<SuperLockerRobot> superLockerRobots;
 
     public Ticket saveBag(Bag bag) {
         if(bag.getSize() == BagSize.SMALL){
@@ -37,6 +38,17 @@ public class LockerRobotManager {
                 throw new NoStorageException();
             }
         }
+
+        if(bag.getSize() == BagSize.LARGE){
+            List<Locker> availableLockers = this.superLockerRobots.get(0).getLockers().stream().filter(l -> l.vacancyRate()>0).collect(Collectors.toList());
+
+            if((long) availableLockers.size() > 0){
+                return availableLockers.get(0).saveBag(bag);
+            } else {
+                throw new NoStorageException();
+            }
+        }
+
 
         throw new RuntimeException();
     }

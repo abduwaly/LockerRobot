@@ -23,7 +23,7 @@ public class RobotManagerTests {
         Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
         List<Locker> lockers = new ArrayList<>();
         lockers.add(locker);
-        LockerRobotManager manager = new LockerRobotManager(lockers, null);
+        LockerRobotManager manager = new LockerRobotManager(lockers, null, null);
 
         Ticket actual = manager.saveBag(bag);
 
@@ -37,7 +37,7 @@ public class RobotManagerTests {
         Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
         List<Locker> lockers = new ArrayList<>();
         lockers.add(locker);
-        LockerRobotManager manager = new LockerRobotManager(lockers, null);
+        LockerRobotManager manager = new LockerRobotManager(lockers, null, null);
         manager.saveBag(new Bag("tempBagId", BagSize.SMALL));
 
         Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
@@ -49,7 +49,7 @@ public class RobotManagerTests {
 
         List<PrimaryLockerRobot> robots = initPrimaryRobots(LockerType.M, 1, 1);
 
-        LockerRobotManager manager = new LockerRobotManager(null, robots);
+        LockerRobotManager manager = new LockerRobotManager(null, robots, null);
 
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
         Ticket actual = manager.saveBag(bag);
@@ -65,13 +65,29 @@ public class RobotManagerTests {
 
         List<PrimaryLockerRobot> robots = initPrimaryRobots(LockerType.M, 1, 1);
 
-        LockerRobotManager manager = new LockerRobotManager(null, robots);
+        LockerRobotManager manager = new LockerRobotManager(null, robots, null);
         manager.saveBag(new Bag("temp1", BagSize.MEDIUM));
         manager.saveBag(new Bag("temp2", BagSize.MEDIUM));
 
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
 
         assertThrows(NoStorageException.class, () -> manager.saveBag(bag));
+    }
+
+    @Test
+    void should_save_bag_successfully_for_VIP_user_given_large_bag_and_a_manager_with_a_PrimaryLockerRobot_has_storage() {
+
+        List<SuperLockerRobot> robots = initSuperRobots(LockerType.L, 1, 1);
+
+        LockerRobotManager manager = new LockerRobotManager(null, null, robots);
+
+        Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
+        Ticket actual = manager.saveBag(bag);
+
+        assertNotNull(actual);
+        assertEquals(actual.getBagId(), TEST_BAG_1);
+        assertEquals(actual.getLockerId(), TEST_LOCKER_1);
+
     }
 
     private List<PrimaryLockerRobot> initPrimaryRobots(LockerType type, int firstCapacity, int secondCapacity) {
@@ -83,6 +99,19 @@ public class RobotManagerTests {
 
         List<PrimaryLockerRobot> result = new ArrayList<>();
         result.add(new PrimaryLockerRobot(lockers));
+
+        return result;
+    }
+
+    private List<SuperLockerRobot> initSuperRobots(LockerType type, int firstCapacity, int secondCapacity) {
+        Locker locker1 = new Locker(TEST_LOCKER_1, type, firstCapacity);
+        Locker locker2 = new Locker(TEST_LOCKER_2, type, secondCapacity);
+        List<Locker> lockers = new ArrayList<>();
+        lockers.add(locker1);
+        lockers.add(locker2);
+
+        List<SuperLockerRobot> result = new ArrayList<>();
+        result.add(new SuperLockerRobot(lockers));
 
         return result;
     }
