@@ -17,13 +17,13 @@ public class PrimaryLockerRobot {
     private List<Locker> lockers;
 
     public Ticket saveBag(Bag bag) {
-        if(bag.getSize() != BagSize.MEDIUM){
+        if (bag.getSize() != BagSize.MEDIUM) {
             throw new BagNotMatchException();
         }
 
         Optional<Locker> target = lockers.stream().filter(l -> l.vacancyRate() > 0).findFirst();
 
-        if(target.isPresent()) {
+        if (target.isPresent()) {
             return target.get().saveBag(bag);
         } else {
             throw new NoStorageException();

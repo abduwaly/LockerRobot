@@ -22,21 +22,21 @@ public class LockerRobotManager {
     private List<SuperLockerRobot> superLockerRobots;
 
     public Ticket saveBag(Bag bag) {
-        if(bag.getSize() == BagSize.SMALL){
-            List<Locker> availableLockers = this.lockers.stream().filter(l-> l.vacancyRate() > 0).collect(Collectors.toList());
+        if (bag.getSize() == BagSize.SMALL) {
+            List<Locker> availableLockers = this.lockers.stream().filter(l -> l.vacancyRate() > 0).collect(Collectors.toList());
 
-            if((long) availableLockers.size() > 0){
+            if ((long) availableLockers.size() > 0) {
                 return availableLockers.get(0).saveBag(bag);
             } else {
                 throw new NoStorageException();
             }
         }
 
-        if(bag.getSize() == BagSize.MEDIUM){
+        if (bag.getSize() == BagSize.MEDIUM) {
             return this.primaryLockerRobots.get(0).saveBag(bag);
         }
 
-        if(bag.getSize() == BagSize.LARGE){
+        if (bag.getSize() == BagSize.LARGE) {
             return this.superLockerRobots.get(0).saveBag(bag);
         }
 
@@ -45,23 +45,23 @@ public class LockerRobotManager {
     }
 
     public Bag takeBag(Ticket ticket) {
-        if(ticket.getBagSize() == BagSize.SMALL){
+        if (ticket.getBagSize() == BagSize.SMALL) {
 
-            if(this.lockers.stream().noneMatch(l -> l.isTicketValid(ticket))){
+            if (this.lockers.stream().noneMatch(l -> l.isTicketValid(ticket))) {
                 throw new FakeTicketException();
             }
 
-            Optional<Locker> correspondingLocker = this.lockers.stream().filter(l-> l.getId().equals(ticket.getLockerId())).findFirst();
-            if(correspondingLocker.isPresent()){
+            Optional<Locker> correspondingLocker = this.lockers.stream().filter(l -> l.getId().equals(ticket.getLockerId())).findFirst();
+            if (correspondingLocker.isPresent()) {
                 return correspondingLocker.get().takeBag(ticket);
             }
         }
 
-        if(ticket.getBagSize() == BagSize.MEDIUM){
+        if (ticket.getBagSize() == BagSize.MEDIUM) {
             return this.primaryLockerRobots.get(0).takeBag(ticket);
         }
 
-        if(ticket.getBagSize() == BagSize.LARGE){
+        if (ticket.getBagSize() == BagSize.LARGE) {
             return this.superLockerRobots.get(0).takeBag(ticket);
         }
 

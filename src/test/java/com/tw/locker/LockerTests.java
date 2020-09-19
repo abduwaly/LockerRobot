@@ -155,7 +155,7 @@ class LockerTests {
 
         Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
 
-        assertThrows(BagNotFoundException.class, ()->locker.takeBag(ticket));
+        assertThrows(BagNotFoundException.class, () -> locker.takeBag(ticket));
     }
 
     @Test
@@ -165,7 +165,7 @@ class LockerTests {
 
         SuperLockerRobot superRobot = initSuperLockerRobot(2, 2, true, true);
 
-        assertThrows(BagNotFoundException.class, ()-> superRobot.takeBag(ticket));
+        assertThrows(BagNotFoundException.class, () -> superRobot.takeBag(ticket));
     }
 
     @Test
@@ -176,7 +176,7 @@ class LockerTests {
 
         PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1, 1);
 
-        assertThrows(BagNotFoundException.class, ()->robot.takeBag(ticket));
+        assertThrows(BagNotFoundException.class, () -> robot.takeBag(ticket));
     }
 
     @Test
@@ -189,12 +189,12 @@ class LockerTests {
 
     @Test
     void should_return_fake_ticket_exception_given_a_fake_ticket_of_medium_bag_onto_primary_locker_robot() {
-        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1,1);
+        PrimaryLockerRobot robot = initPrimaryRobot(LockerType.M, 1, 1);
         Ticket ticket = robot.saveBag(new Bag("Test-bag", BagSize.MEDIUM));
 
         Ticket fakeTicket = new Ticket(UUID.randomUUID(), "fake-bag-0", ticket.getLockerId(), BagSize.MEDIUM);
 
-        assertThrows(FakeTicketException.class, ()->robot.takeBag(fakeTicket));
+        assertThrows(FakeTicketException.class, () -> robot.takeBag(fakeTicket));
     }
 
     @Test
@@ -204,7 +204,7 @@ class LockerTests {
 
         Ticket fakeTicket = new Ticket(UUID.randomUUID(), "fake-bag-0", ticket.getLockerId(), BagSize.LARGE);
 
-        assertThrows(FakeTicketException.class, ()->robot.takeBag(fakeTicket));
+        assertThrows(FakeTicketException.class, () -> robot.takeBag(fakeTicket));
     }
 
     @Test
@@ -218,17 +218,17 @@ class LockerTests {
     @Test
     void should_return_bag_not_match_exception_given_a_medium_bag_provided_to_super_robot() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.MEDIUM);
-        SuperLockerRobot robot = initSuperLockerRobot(1,1,false, false);
+        SuperLockerRobot robot = initSuperLockerRobot(1, 1, false, false);
 
         assertThrows(BagNotMatchException.class, () -> robot.saveBag(bag));
     }
 
     @Test
-    void should_return_bag_not_match_exception_given_a_large_bag_to_locker(){
+    void should_return_bag_not_match_exception_given_a_large_bag_to_locker() {
         Bag bag = new Bag(TEST_BAG_1, BagSize.LARGE);
         Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 2);
 
-        assertThrows(BagNotMatchException.class, ()->locker.saveBag(bag));
+        assertThrows(BagNotMatchException.class, () -> locker.saveBag(bag));
     }
 
     private PrimaryLockerRobot initPrimaryRobot(LockerType type, int firstCapacity, int secondCapacity) {

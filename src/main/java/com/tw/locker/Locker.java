@@ -33,7 +33,7 @@ public class Locker {
     }
 
     public Ticket saveBag(Bag bag) {
-        if(!isBagSizeMatchLockerType(bag.getSize())){
+        if (!isBagSizeMatchLockerType(bag.getSize())) {
             throw new BagNotMatchException();
         }
 

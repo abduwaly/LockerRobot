@@ -18,7 +18,7 @@ public class SuperLockerRobot {
     private List<Locker> lockers;
 
     public Ticket saveBag(Bag bag) {
-        if(bag.getSize() != BagSize.LARGE){
+        if (bag.getSize() != BagSize.LARGE) {
             throw new BagNotMatchException();
         }
 

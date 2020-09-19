@@ -35,7 +35,7 @@ public class RobotManagerTests {
     }
 
     @Test
-    void should_return_no_storage_error_for_VIP_user_given_small_bag_and_S_locker_without_capacity(){
+    void should_return_no_storage_error_for_VIP_user_given_small_bag_and_S_locker_without_capacity() {
         Locker locker = new Locker(TEST_LOCKER_1, LockerType.S, 1);
         List<Locker> lockers = new ArrayList<>();
         lockers.add(locker);
@@ -43,7 +43,7 @@ public class RobotManagerTests {
         manager.saveBag(new Bag("tempBagId", BagSize.SMALL));
 
         Bag bag = new Bag(TEST_BAG_1, BagSize.SMALL);
-        assertThrows(NoStorageException.class, ()-> manager.saveBag(bag));
+        assertThrows(NoStorageException.class, () -> manager.saveBag(bag));
     }
 
     @Test
